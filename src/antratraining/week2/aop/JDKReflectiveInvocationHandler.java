@@ -2,8 +2,10 @@ package antratraining.week2.aop;
 
 import antratraining.week2.aop.annotation.AfterReturn;
 import antratraining.week2.aop.annotation.AfterThrow;
+import antratraining.week2.aop.annotation.Around;
 import antratraining.week2.aop.interceptor.AfterReturnMethodInterceptor;
 import antratraining.week2.aop.interceptor.AfterThrowMethodInterceptor;
+import antratraining.week2.aop.interceptor.AroundMethodInterceptor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -31,6 +33,9 @@ public class JDKReflectiveInvocationHandler implements InvocationHandler{
                     methodInterceptorList.add(new AfterReturnMethodInterceptor(aspectInstance, aspectMethod));
                 } else if(annotation.annotationType() == AfterThrow.class) {
                     methodInterceptorList.add(new AfterThrowMethodInterceptor(aspectInstance, aspectMethod));
+                }
+                else if(annotation.annotationType() == Around.class) {
+                    methodInterceptorList.add(new AroundMethodInterceptor(aspectInstance, aspectMethod));
                 }
             }
         }
