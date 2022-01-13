@@ -1,0 +1,30 @@
+This is the overall note for my interceptor implementation.
+
+The goal is to design two kinds of interceptor, one that gets triggered upon exceptions
+and one that doesn't.
+
+A chain of events is involved here so extra caution might be needed to plan out the exceptions ripple.
+
+The exception to be detected is to be found only in the realInstance method.
+
+After that the next step up is the proceed method of the ProxyMethodInvocation.
+
+After that there are chains of calls for different kinds of interceptor.
+
+The question is:
+
+At which part of this stack trace should I incorporate my try catch?
+
+If I want to go for maximum simplicity I could implement a try clause on each and every step as i keep rethrowing
+the exception up the ladder.
+
+This offers some flexibility But it might muddle the stack trace
+if the exception continued to go unhandled, making it harder to pinpoint
+the origin of the exception i.e. is it from the proceed method or from the realInstance method.
+
+To tackle that problem I can make a custom exception indicating exceptions originating from the realInstance method,
+but that is too cumbersome for this assignment's purpose.
+
+I am to prove a concept, so I think it is sufficient to put the try clause in the place where it is most needed,
+i.e. the interceptor as it is the point where I have to make a decision of whether to execute the aspect or not.
+
